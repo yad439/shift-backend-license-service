@@ -22,7 +22,7 @@ public class UserCRUDService {
 	}
 
 	public UserDto getUser(long id) {
-		User entry = userRepository.findById(id).orElseThrow();
-		return modelMapper.map(entry, UserDto.class);
+		User entity = userRepository.findById(id).orElseThrow();
+		return modelMapper.map(entity, UserDto.class);
 	}
 }
