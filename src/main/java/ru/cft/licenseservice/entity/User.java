@@ -12,6 +12,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	private boolean isCompany;
 	private String primaryEmail;
 	@ElementCollection
 	private Set<String> otherEmails;
