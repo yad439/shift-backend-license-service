@@ -1,9 +1,11 @@
 package ru.cft.licenseservice.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import ru.cft.licenseservice.dto.UserDto;
 import ru.cft.licenseservice.service.UserCRUDService;
+
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/user")
@@ -15,8 +17,12 @@ public class UserCRUDController {
 	}
 
 	@GetMapping("/{id}")
-	public UserDto get(@PathVariable("id") long id) {
-		return userService.getUser(id);
+	public ResponseEntity<?> get(@PathVariable("id") long id) {
+		try {
+			return ResponseEntity.ok(userService.getUser(id));
+		} catch (NoSuchElementException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@PostMapping
@@ -25,7 +31,12 @@ public class UserCRUDController {
 	}
 
 	@PostMapping("/{id}")
-	public void update(@PathVariable("id") long id,@RequestBody UserDto userDto){
-		userService.updateUser(id,userDto);
+	public ResponseEntity<Void> update(@PathVariable("id") long id, @RequestBody UserDto userDto) {
+		try {
+			userService.updateUser(id, userDto);
+			return ResponseEntity.ok().build();
+		} catch (NoSuchElementException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 }
