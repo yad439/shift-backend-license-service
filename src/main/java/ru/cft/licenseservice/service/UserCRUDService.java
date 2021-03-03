@@ -25,4 +25,10 @@ public class UserCRUDService {
 		User entity = userRepository.findById(id).orElseThrow();
 		return modelMapper.map(entity, UserDto.class);
 	}
+
+	public void updateUser(long id,UserDto userDto){
+		User entity = userRepository.findById(id).orElseThrow();
+		modelMapper.map(userDto,entity);
+		userRepository.save(entity);
+	}
 }
