@@ -23,4 +23,9 @@ public class UserCRUDController {
 	public void create(@RequestBody UserDto userDto) {
 		userService.createUser(userDto);
 	}
+
+	@PostMapping("/{id}")
+	public void update(@PathVariable("id") long id,@RequestBody UserDto userDto){
+		userService.updateUser(id,userDto);
+	}
 }
