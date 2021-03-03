@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 public class LicenseServiceConfiguration {
 	@Bean
 	public ModelMapper modelMapper() {
-		return new ModelMapper();
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setSkipNullEnabled(true);
+		return modelMapper;
 	}
 }
