@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 class UserCRUDServiceTest {
-	private AutoCloseable closeable;
+	private AutoCloseable mocksClosable;
 	@Mock
 	private UserRepository userRepository;
 	@Mock
@@ -29,8 +29,8 @@ class UserCRUDServiceTest {
 	private UserDto testDto;
 
 	@BeforeEach
-	void init() {
-		closeable = MockitoAnnotations.openMocks(this);
+	void setUp() {
+		mocksClosable = MockitoAnnotations.openMocks(this);
 
 		testDto = new UserDto();
 		testDto.setIsCompany(false);
@@ -44,10 +44,10 @@ class UserCRUDServiceTest {
 	}
 
 	@AfterEach
-	void releaseMocks() throws Exception {
+	void tearDown() throws Exception {
 		testEntity = null;
 		testDto = null;
-		closeable.close();
+		mocksClosable.close();
 	}
 
 	@Test
