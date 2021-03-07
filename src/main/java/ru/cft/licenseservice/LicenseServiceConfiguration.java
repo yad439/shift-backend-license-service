@@ -10,6 +10,7 @@ import ru.cft.licenseservice.dto.LicenseFileDto;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
+import java.time.Instant;
 
 @Configuration
 @EnableAutoConfiguration
@@ -28,6 +29,8 @@ public class LicenseServiceConfiguration {
 	@Bean
 	public Kryo kryo() {
 		Kryo kryo = new Kryo();
+		kryo.setRegistrationRequired(false);//todo bytes in dto
+		kryo.register(Instant.class);
 		kryo.register(LicenseFileDto.class, LicenseFileDto.SERIALISATION_ID);
 		return kryo;
 	}
