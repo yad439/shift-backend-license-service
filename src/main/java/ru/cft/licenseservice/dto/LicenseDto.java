@@ -1,16 +1,16 @@
 package ru.cft.licenseservice.dto;
 
-import lombok.Value;
+import lombok.Data;
 
 import java.security.KeyPair;
 import java.time.Instant;
 
-@Value
+@Data
 public class LicenseDto {
-	long id;
-	long userId;
-	String userPrimaryEmail;
-	Instant startDate;
-	Instant expirationDate;
-	KeyPair keyPair;
+	private long id;
+	private long userId;
+	private String userPrimaryEmail;
+	private Instant startDate;
+	private Instant expirationDate;
+	private KeyPair keyPair;
 }

@@ -1,21 +1,25 @@
 package ru.cft.licenseservice.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.security.PublicKey;
 import java.time.Instant;
 
-@Value
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LicenseFileDto {
 	public static final int SERIALISATION_ID = 16;
 
-	long id;
-	long userId;
-	String userPrimaryEmail;
-	Instant startDate;
-	Instant expirationDate;
-	PublicKey key;
-	byte[] signature;
+	private long id;
+	private long userId;
+	private String userPrimaryEmail;
+	private Instant startDate;
+	private Instant expirationDate;
+	private PublicKey key;
+	private byte[] signature;
 }
