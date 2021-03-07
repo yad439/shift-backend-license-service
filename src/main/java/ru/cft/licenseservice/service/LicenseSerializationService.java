@@ -13,7 +13,7 @@ public class LicenseSerializationService {
 	private final Kryo kryo;
 
 	public byte[] serialize(LicenseFileDto license) {
-		try (Output output = new Output()) {
+		try (Output output = new Output(2048)) {
 			kryo.writeObject(output, license);
 			return output.toBytes();
 		}
