@@ -15,7 +15,7 @@ public class License {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "USER_ID")
     private User user;
     private Instant startDate;
     private Instant expirationDate;
