@@ -19,5 +19,6 @@ public class License {
     private User user;
     private Instant startDate;
     private Instant expirationDate;
+    @Column(length = 2048)
     private KeyPair keyPair;
 }
