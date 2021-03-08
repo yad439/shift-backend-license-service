@@ -33,7 +33,7 @@ class UserCRUDServiceTest {
 		mocksClosable = MockitoAnnotations.openMocks(this);
 
 		testDto = new UserDto();
-		testDto.setIsCompany(false);
+		testDto.setCompany(false);
 		testDto.setPrimaryEmail("test@example.com");
 		testDto.setOtherEmails(Collections.emptySet());
 
@@ -79,7 +79,7 @@ class UserCRUDServiceTest {
 	@Test
 	void when_updatesExistingUser_expect_saveUpdatedUser() {
 		var newDto = new UserDto();
-		newDto.setIsCompany(true);
+		newDto.setCompany(true);
 		newDto.setPrimaryEmail("test2@example.com");
 		newDto.setOtherEmails(Collections.emptySet());
 
@@ -88,7 +88,7 @@ class UserCRUDServiceTest {
 			var dto = (UserDto) args.getArgument(0);
 			var entity = (User) args.getArgument(1);
 			entity.setPrimaryEmail(dto.getPrimaryEmail());
-			entity.setCompany(dto.getIsCompany());
+			entity.setCompany(dto.getCompany());
 			entity.setOtherEmails(dto.getOtherEmails());
 			return null;
 		}).when(modelMapper).map(newDto, testEntity);
@@ -96,7 +96,7 @@ class UserCRUDServiceTest {
 		service.updateUser(1L, newDto);
 
 		Assertions.assertEquals(newDto.getPrimaryEmail(), testEntity.getPrimaryEmail());
-		Assertions.assertEquals(newDto.getIsCompany(), testEntity.isCompany());
+		Assertions.assertEquals(newDto.getCompany(), testEntity.isCompany());
 		Assertions.assertEquals(newDto.getOtherEmails(), testEntity.getOtherEmails());
 
 		Mockito.verify(modelMapper).map(newDto, testEntity);
@@ -106,7 +106,7 @@ class UserCRUDServiceTest {
 	@Test
 	void when_requestedUpdateOfNotExistingUser_expect_throws() {
 		var newDto = new UserDto();
-		newDto.setIsCompany(true);
+		newDto.setCompany(true);
 		newDto.setPrimaryEmail("test2@example.com");
 		newDto.setOtherEmails(Collections.emptySet());
 
