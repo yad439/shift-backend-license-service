@@ -15,6 +15,7 @@ import java.time.Instant;
 @Configuration
 @EnableAutoConfiguration
 public class LicenseServiceConfiguration {
+	private static final int LICENSE_FILE_SERIALIZATION_ID = 16;
 	private static final String KEY_TYPE = "RSA";
 	private static final String SIGNATURE_TYPE = "SHA256withRSA";
 	private static final int KEY_SIZE = 2048;
@@ -31,7 +32,7 @@ public class LicenseServiceConfiguration {
 		Kryo kryo = new Kryo();
 		kryo.setRegistrationRequired(false);//todo bytes in dto
 		kryo.register(Instant.class);
-		kryo.register(LicenseFileDto.class, LicenseFileDto.SERIALISATION_ID);
+		kryo.register(LicenseFileDto.class, LICENSE_FILE_SERIALIZATION_ID);
 		return kryo;
 	}
 

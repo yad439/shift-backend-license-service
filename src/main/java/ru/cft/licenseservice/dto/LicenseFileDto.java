@@ -13,7 +13,6 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LicenseFileDto {
-	public static final int SERIALISATION_ID = 16;
 
 	private long id;
 	private long userId;
