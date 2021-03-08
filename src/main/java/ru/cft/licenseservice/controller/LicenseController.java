@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.cft.licenseservice.dto.LicenseFileDto;
+import ru.cft.licenseservice.exception.InvalidFileException;
 import ru.cft.licenseservice.service.LicenseSerializationService;
 import ru.cft.licenseservice.service.LicenseService;
 
@@ -53,7 +54,12 @@ class LicenseController {
 
 	@PostMapping("/check")
 	public ResponseEntity<LicenseService.LicenseStatus> check(@RequestBody byte[] file) {
-		LicenseFileDto licenseFileDto = serializationService.deserialize(file);
+		LicenseFileDto licenseFileDto;
+		try {
+			licenseFileDto = serializationService.deserialize(file);
+		} catch (InvalidFileException e) {
+			return new ResponseEntity<>(LicenseService.LicenseStatus.LICENSE_INVALID, HttpStatus.valueOf(418));
+		}
 		LicenseService.LicenseStatus status = licenseService.checkLicense(licenseFileDto);
 		if (status == LicenseService.LicenseStatus.LICENSE_VALID) {
 			return ResponseEntity.ok(LicenseService.LicenseStatus.LICENSE_VALID);
