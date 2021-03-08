@@ -53,18 +53,18 @@ class LicenseController {
 	}
 
 	@PostMapping("/check")
-	public ResponseEntity<LicenseService.LicenseStatus> check(@RequestBody byte[] file) {
+	public ResponseEntity<String> check(@RequestBody byte[] file) {
 		LicenseFileDto licenseFileDto;
 		try {
 			licenseFileDto = serializationService.deserialize(file);
 		} catch (InvalidFileException e) {
-			return new ResponseEntity<>(LicenseService.LicenseStatus.LICENSE_INVALID, HttpStatus.valueOf(418));
+			return new ResponseEntity<>(LicenseService.LicenseStatus.LICENSE_INVALID.toString(), HttpStatus.valueOf(418));
 		}
 		LicenseService.LicenseStatus status = licenseService.checkLicense(licenseFileDto);
 		if (status == LicenseService.LicenseStatus.LICENSE_VALID) {
-			return ResponseEntity.ok(LicenseService.LicenseStatus.LICENSE_VALID);
+			return ResponseEntity.ok(LicenseService.LicenseStatus.LICENSE_VALID.toString());
 		} else {
-			return new ResponseEntity<>(status, HttpStatus.valueOf(418));
+			return new ResponseEntity<>(status.toString(), HttpStatus.valueOf(418));
 		}
 	}
 }
