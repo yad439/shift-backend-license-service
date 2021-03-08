@@ -16,9 +16,10 @@ public class UserCRUDService {
 		this.modelMapper = modelMapper;
 	}
 
-	public void createUser(UserDto userDto) {
+	public long createUser(UserDto userDto) {
 		User entity = modelMapper.map(userDto, User.class);
-		userRepository.save(entity);
+		User createdUser = userRepository.save(entity);
+		return createdUser.getId();
 	}
 
 	public UserDto getUser(long id) {

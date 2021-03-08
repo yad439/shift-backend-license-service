@@ -53,10 +53,12 @@ class UserCRUDServiceTest {
 	@Test
 	void when_creatingUser_expect_saveInDatabase() {
 		Mockito.when(modelMapper.map(testDto, User.class)).thenReturn(testEntity);
+		Mockito.when(userRepository.save(testEntity)).thenReturn(testEntity);
 
-		service.createUser(testDto);
+		var id = service.createUser(testDto);
 
 		Mockito.verify(userRepository).save(testEntity);
+		Assertions.assertEquals(testEntity.getId(), id);
 	}
 
 	@Test

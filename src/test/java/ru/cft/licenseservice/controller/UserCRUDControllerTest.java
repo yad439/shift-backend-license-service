@@ -60,9 +60,12 @@ class UserCRUDControllerTest {
 
 	@Test
 	void when_userCreationRequested_expect_userCreationCall() {
-		controller.create(testDto);
+		Mockito.when(service.createUser(testDto)).thenReturn(1L);
+
+		var id = controller.create(testDto);
 
 		Mockito.verify(service).createUser(testDto);
+		Assertions.assertEquals(1L, id);
 	}
 
 	@Test

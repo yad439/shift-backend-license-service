@@ -26,8 +26,8 @@ public class UserCRUDController {
 	}
 
 	@PostMapping
-	public void create(@RequestBody UserDto userDto) {
-		userService.createUser(userDto);
+	public long create(@RequestBody UserDto userDto) {
+		return userService.createUser(userDto);
 	}
 
 	@PostMapping("/{id}")
