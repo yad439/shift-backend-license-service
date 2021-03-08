@@ -1,15 +1,19 @@
 package ru.cft.licenseservice;
 
 import com.esotericsoftware.kryo.kryo5.Kryo;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.cft.licenseservice.dto.LicenseFileDto;
+import ru.cft.licenseservice.dto.LicenseFileSerializationDto;
+import ru.cft.licenseservice.exception.InvalidFileException;
 
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.Signature;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.time.Instant;
 
 @Configuration
@@ -24,15 +28,46 @@ public class LicenseServiceConfiguration {
 	public ModelMapper modelMapper() {
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setSkipNullEnabled(true);
+		modelMapper.addConverter(new Converter<Instant, Long>() {//lambda doesn't work for unknown reason
+			@Override
+			public Long convert(final MappingContext<Instant, Long> context) {
+				return context.getSource().getEpochSecond();
+			}
+		});
+		modelMapper.addConverter(new Converter<Long, Instant>() {
+			@Override
+			public Instant convert(final MappingContext<Long, Instant> context) {
+				return Instant.ofEpochSecond(context.getSource());
+			}
+		});
+		modelMapper.addConverter(new Converter<PublicKey, byte[]>() {
+			@Override
+			public byte[] convert(final MappingContext<PublicKey, byte[]> context) {
+				return context.getSource().getEncoded();
+			}
+		});
+		modelMapper.addConverter(new Converter<byte[], PublicKey>() {
+			@Override
+			public PublicKey convert(final MappingContext<byte[], PublicKey> context) {
+				try {
+					KeyFactory keyFactory = KeyFactory.getInstance(KEY_TYPE);
+					KeySpec keySpecX509 = new X509EncodedKeySpec(context.getSource());
+					return keyFactory.generatePublic(keySpecX509);
+				} catch (NoSuchAlgorithmException e) {
+					throw new RuntimeException(e);
+				} catch (InvalidKeySpecException e) {
+					throw new InvalidFileException(e);
+				}
+			}
+		});
 		return modelMapper;
 	}
 
 	@Bean
 	public Kryo kryo() {
 		Kryo kryo = new Kryo();
-		kryo.setRegistrationRequired(false);//todo bytes in dto
-		kryo.register(Instant.class);
-		kryo.register(LicenseFileDto.class, LICENSE_FILE_SERIALIZATION_ID);
+		kryo.register(byte[].class);
+		kryo.register(LicenseFileSerializationDto.class, LICENSE_FILE_SERIALIZATION_ID);
 		return kryo;
 	}
 
