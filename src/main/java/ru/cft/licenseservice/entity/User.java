@@ -16,4 +16,6 @@ public class User {
 	private String primaryEmail;
 	@ElementCollection
 	private Set<String> otherEmails;
+	@OneToMany(mappedBy = "user")
+	private Set<License> licenses;
 }
