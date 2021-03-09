@@ -55,6 +55,16 @@ class LicenseController {
 		}
 	}
 
+	@PostMapping("/list")
+	ResponseEntity<?> list(@RequestBody String body) {
+		long userId = Long.parseLong(body);
+		try {
+			return ResponseEntity.ok(licenseService.listLicenses(userId));
+		} catch (NoSuchElementException e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
 	@PostMapping("/check")
 	public ResponseEntity<String> check(@RequestBody byte[] file) {
 		LicenseFileDto licenseFileDto;

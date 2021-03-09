@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.time.Period;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -80,6 +81,11 @@ public class LicenseService {
 		if (Instant.now().isAfter(licenseFile.getExpirationDate())) return LicenseStatus.LICENSE_EXPIRED;
 
 		return LicenseStatus.LICENSE_VALID;
+	}
+
+	public Iterable<Long> listLicenses(long userId) {
+		User user = userRepository.findById(userId).orElseThrow();
+		return user.getLicenses().stream().map(License::getId).collect(Collectors.toUnmodifiableList());
 	}
 
 	public enum LicenseStatus {LICENSE_VALID, LICENsE_NOT_EXISTS, LICENSE_INVALID, LICENSE_EXPIRED}
