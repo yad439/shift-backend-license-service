@@ -1,6 +1,7 @@
 package ru.cft.licenseservice.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -8,6 +9,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @Data
+@EqualsAndHashCode(exclude = "licenses")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
