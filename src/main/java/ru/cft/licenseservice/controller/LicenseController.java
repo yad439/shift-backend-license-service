@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.cft.licenseservice.dto.LicenseFileDto;
+import ru.cft.licenseservice.exception.ActionNotPermittedException;
 import ru.cft.licenseservice.exception.InvalidFileException;
 import ru.cft.licenseservice.service.LicenseSerializationService;
 import ru.cft.licenseservice.service.LicenseService;
@@ -34,6 +35,8 @@ class LicenseController {
 			return new ResponseEntity<>(file, headers, HttpStatus.OK);
 		} catch (NoSuchElementException e) {
 			return ResponseEntity.notFound().build();
+		} catch (ActionNotPermittedException e) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
 

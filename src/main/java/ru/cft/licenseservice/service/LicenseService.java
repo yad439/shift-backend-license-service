@@ -7,6 +7,7 @@ import ru.cft.licenseservice.dto.LicenseDto;
 import ru.cft.licenseservice.dto.LicenseFileDto;
 import ru.cft.licenseservice.entity.License;
 import ru.cft.licenseservice.entity.User;
+import ru.cft.licenseservice.exception.ActionNotPermittedException;
 import ru.cft.licenseservice.repository.LicenseRepository;
 import ru.cft.licenseservice.repository.UserRepository;
 
@@ -30,6 +31,7 @@ public class LicenseService {
 
 	public LicenseFileDto generateLicense(long userId) {
 		User user = userRepository.findById(userId).orElseThrow();
+		if (!user.isCompany() && !user.getLicenses().isEmpty()) throw new ActionNotPermittedException();
 
 		KeyPair keyPair = cryptographyService.generateKeyPair();
 		Instant startDate = Instant.now();
