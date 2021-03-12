@@ -7,7 +7,7 @@ import java.util.Set;
 @Data
 public class UserDto {
 	private Long id;
-	private Boolean isCompany;
+	private Boolean company;
 	private String primaryEmail;
 	private Set<String> otherEmails;
 }

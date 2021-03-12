@@ -28,7 +28,7 @@ class UserCRUDControllerTest {
 		mocksClosable = MockitoAnnotations.openMocks(this);
 
 		testDto = new UserDto();
-		testDto.setIsCompany(false);
+		testDto.setCompany(false);
 		testDto.setPrimaryEmail("test@example.com");
 		testDto.setOtherEmails(Collections.emptySet());
 	}
