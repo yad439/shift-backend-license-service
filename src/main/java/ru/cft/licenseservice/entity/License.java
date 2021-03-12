@@ -1,6 +1,7 @@
 package ru.cft.licenseservice.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.security.KeyPair;
@@ -21,4 +22,7 @@ public class License {
     private Instant expirationDate;
     @Column(length = 2048)
     private KeyPair keyPair;
+    @OneToOne(optional = true, cascade = CascadeType.ALL, mappedBy = "license", fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    private ExpiringLicense expiringEntry;
 }
