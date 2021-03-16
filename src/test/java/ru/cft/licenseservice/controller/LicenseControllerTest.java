@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.cft.licenseservice.dto.LicenseFileDto;
 import ru.cft.licenseservice.exception.ActionNotPermittedException;
 import ru.cft.licenseservice.exception.InvalidFileException;
+import ru.cft.licenseservice.repository.ExpiringLicenseRepository;
 import ru.cft.licenseservice.repository.LicenseRepository;
 import ru.cft.licenseservice.repository.SimpleRepository;
 import ru.cft.licenseservice.repository.UserRepository;
@@ -39,6 +40,8 @@ class LicenseControllerTest {
 	private UserRepository userRepository;
 	@MockBean
 	private LicenseRepository licenseRepository;
+	@MockBean
+	private ExpiringLicenseRepository expiringLicenseRepository;
 	private LicenseFileDto license;
 	private byte[] serialized;
 

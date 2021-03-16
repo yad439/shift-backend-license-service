@@ -7,6 +7,7 @@ import org.modelmapper.spi.MappingContext;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import ru.cft.licenseservice.dto.LicenseFileSerializationDto;
 import ru.cft.licenseservice.exception.InvalidFileException;
 
@@ -18,6 +19,7 @@ import java.time.Instant;
 
 @Configuration
 @EnableAutoConfiguration
+@EnableScheduling
 public class LicenseServiceConfiguration {
 	private static final int LICENSE_FILE_SERIALIZATION_ID = 16;
 	private static final String KEY_TYPE = "RSA";
